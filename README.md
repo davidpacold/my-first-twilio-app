@@ -19,6 +19,9 @@ Some of my ideas for the app are:
 ## Create an account
 In this step we will be creating a new Twilio account to get access to a phone number and the Twilio platform services
 
+- In your web browser navigate to [twilio.com](https://twilio.com)
+- In the upper right hand corner hit the sign up button 
+
 ## Buy a phone number
 This step will walk us though buying a phone number in the Twilio platform 
 
