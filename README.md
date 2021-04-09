@@ -44,10 +44,10 @@ Here is a link to the Twilio Docs:
 TwiML Bins allow you to create a small application and have Twilio host it. Once you have your code written, and your TwiML Bin is created, you will get a unique URL to access it. We will use that URL as the destination for inbound SMS messages. 
 
 - Start by accessing the TwiML Bin feature by selecting the 3 dots from the menu of your Twilio Console and selecting the TwiML Bin feature
-![Navigating to TwiML Bin](images/twimlbinnav.png?raw=true "Twiml Bin Nav")
+![Navigating to TwiML Bin](images/twimlbinnav.gif?raw=true "Twiml Bin Nav")
 
 - From the TwiML Bin landing page, click create new TwiML Bin, this will load a new Bin for us to use. For now, we are just going to copy the expample code providied to use on the form, and save our bin. This will give us the unique url for our fresh TwiML Bin. 
-![Bin Create](images/bincreate.mp4?raw=true "TwiMLbin create")
+![Bin Create](images/bincreate.gif?raw=true "TwiMLbin create")
 
 
 ### Create a basic SMS response
