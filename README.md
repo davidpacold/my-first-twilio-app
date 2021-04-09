@@ -9,6 +9,13 @@ The process entails building an app that utilizes the Twilio platform and then g
 
 This project will document my journey to earning my Track Jacket! Here I will be outlining the general process of setting up a twilio account, the steps I followed to learn and build my app, and provide some tips and tricks as I learn them. 
 
+Some of my ideas for the app are: 
+- a number guessing app, the server generates a random number between 1 and 10, and then the user guesses a number, the server returns a match or a clue 
+- a photo a day collage app, the user is prompted to submit a picture of what they are doing at that moment. At the end of the week a montage of the photos is returned
+- a mad lib generating app, the user is prompted for a noun, verb, etc.. and the end result is a completed mad lib.
+- a photo identifier application, submit a picture and have it analyzed for content, think silicon valley tv show, hot dog or no hot dog ha! 
+
+
 ## Create an account
 In this step we will be creating a new Twilio account to get access to a phone number and the Twilio platform services
 
