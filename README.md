@@ -22,9 +22,9 @@ For Twilio Employees only - you have the option to convert your trial account to
 TwiML is the markup language and formatting used by the twilio services 
 Here is a link to the Twilio Docs:
  
-TwiML for [Programmable SMS](https://www.twilio.com/docs/sms/TwiML)
+- TwiML for [Programmable SMS](https://www.twilio.com/docs/sms/TwiML)
 
-TwiML for [Programmable Voice](https://www.twilio.com/docs/voice/twiml)
+- TwiML for [Programmable Voice](https://www.twilio.com/docs/voice/twiml)
 
 ## Create a TwiML bin
 
