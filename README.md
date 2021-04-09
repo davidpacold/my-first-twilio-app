@@ -20,6 +20,8 @@ For Twilio Employees only - you have the option to convert your trial account to
 
 ## What is TwiML
 TwiML is the markup language and formatting used by the twilio services 
+Here is a link to the Twilio Docs: 
+https://www.twilio.com/docs/sms/twiml
 
 ## Create a Twiml bin
 
