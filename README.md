@@ -21,7 +21,9 @@ In this step we will be creating a new Twilio account to get access to a phone n
 
 - In your web browser navigate to [twilio.com](https://twilio.com)
 - In the upper right hand corner hit the sign up button 
-![Sign up gif](images/signup.gif?raw=true "Title")
+![Sign up gif](images/signup.gif?raw=true "Signup gif")
+- You will then be presented with a quick form to sign up for the Twilio platform 
+![Sign up gif](images/signupform.png?raw=true "Signup form")
 ## Buy a phone number
 This step will walk us though buying a phone number in the Twilio platform 
 
