@@ -9,11 +9,23 @@ The process entails builing an app that utilizes the Twilio platform and then gi
 
 This project will document my journey to earning my Track Jacket! Here I will be outlining the general process of setting up a twilio account, the steps I followed to learn and build my app, and provide some tips and tricks as I learn them. 
 
-Create an account
-Buy a phone number
-Convert to employee account
-Create a Twiml bin
-Create a basic SMS response
+## Create an account
+In this step we will be creating a new Twilio account to get access to a phone number and the Twilio platform services
+
+## Buy a phone number
+This step will walk us though buying a phone number in the Twilio platform 
+
+## Convert to employee account
+For Twilio Employees only - you have the option to convert your trial account to an employee account. This will allow your account specific priviliges above and beyond the trial account limitations. 
+
+## What is TwiML
+TwiML is the markup language and formatting used by the twilio services 
+
+## Create a Twiml bin
+
+TwimlBins allow you to create a small application and have Twilio host it. Once you have your code written, and your Twimlbin is created, you will get a unique URL to access it. We will use that URL as the destination for inbound SMS messages. 
+
+### Create a basic SMS response
 
 ```
     <?xml version="1.0" encoding="UTF-8"?>
@@ -39,6 +51,7 @@ If successful you will get the "Hello from Twilio Bootcamp, this is great!" resp
 
 If you account is still in trial status, your message will indiate it as such in the retuned response.
 
-Test code added here
-test 2
-test 3
+
+
+# Random notes and things to look up in the future
+  Flask and the request module 
