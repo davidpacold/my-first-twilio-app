@@ -41,14 +41,16 @@ Here is a link to the Twilio Docs:
 
 ## Create a TwiML bin
 
-TwiML Bins allow you to create a small application and have Twilio host it. Once you have your code written, and your TwiML Bin is created, you will get a unique URL to access it. We will use that URL as the destination for inbound SMS messages. 
+TwiML Bins allow you to create a small application and have Twilio host it. Once you have your code written, and your TwiML Bin is created, you will get a unique URL to access it. We will use that later on, to direct our inbound SMS messages to our application that will handle them. 
 
 - Start by accessing the TwiML Bin feature by selecting the 3 dots from the menu of your Twilio Console and selecting the TwiML Bin feature  
-![Navigating to TwiML Bin](images/twimlbinnav.gif?raw=true "Twiml Bin Nav")
+![Navigating to TwiML Bin](images/twimlbinnav.gif?raw=true "Twiml Bin Nav")  
 
-- From the TwiML Bin landing page, click create new TwiML Bin, this will load a new Bin for us to use. For now, we are just going to copy the example code provided to use on the form, and save our bin. This will give us the unique url for our fresh TwiML Bin.  
-![Bin Create](images/bincreate.gif?raw=true "TwiMLbin create")
+- From the TwiML Bin landing page, click create new TwiML Bin, this will load a new Bin for us to use. For now, give it a name that is descriptive of the app we are making, as for the code, we are just going to copy the example code provided to use on the form. Once we have done that will save our Bin. This will give us the unique url for our fresh TwiML Bin, that we can then use to respond inbound voice or SMS messages.  
+![Bin Create](images/bincreate.gif?raw=true "TwiMLbin create")  
 
+- Next we will want to copy the Bin URL that was created after we saved our Bin in the previous step. At the top of the page, a new properties section will be displayed, there are a number of fields displayed such as a SID, the date created and updated and a URL. The URL field is what we are interested in and it conveniently has a little copy button at the end of the field. Hit that to copy the entire url.  
+![copy TwiML Bin URL](images/bincopy.gif?raw=true "Twiml Bin copy")  
 
 ### Create a basic SMS response
 
