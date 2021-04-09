@@ -24,6 +24,7 @@ In this step we will be creating a new Twilio account to get access to a phone n
 ![Sign up gif](images/signup.gif?raw=true "Signup gif")
 - You will then be presented with a quick form to sign up for the Twilio platform 
 ![Sign up gif](images/signupform.png?raw=true "Signup form")
+
 ## Buy a phone number
 This step will walk us though buying a phone number in the Twilio platform 
 
@@ -36,11 +37,18 @@ Here is a link to the Twilio Docs:
  
 - TwiML for [Programmable SMS](https://www.twilio.com/docs/sms/TwiML)
 
-- TwiML for [Programmable Voice](https://www.twilio.com/docs/voice/twiml)
+- TwiML for [Programmable Voice](https://www.twilio.com/docs/voice/TwiML)
 
 ## Create a TwiML bin
 
-TwiMLBins allow you to create a small application and have Twilio host it. Once you have your code written, and your TwiMLbin is created, you will get a unique URL to access it. We will use that URL as the destination for inbound SMS messages. 
+TwiML Bins allow you to create a small application and have Twilio host it. Once you have your code written, and your TwiML Bin is created, you will get a unique URL to access it. We will use that URL as the destination for inbound SMS messages. 
+
+- Start by accessing the TwiML Bin feature by selecting the 3 dots from the menu of your Twilio Console and selecting the TwiML Bin feature
+![Navigating to TwiML Bin](images/twimlbinnav.png?raw=true "Twiml Bin Nav")
+
+- From the TwiML Bin landing page, click create new TwiML Bin, this will load a new Bin for us to use. For now, we are just going to copy the expample code providied to use on the form, and save our bin. This will give us the unique url for our fresh TwiML Bin. 
+![Bin Create](images/bincreate.mp4?raw=true "TwiMLbin create")
+
 
 ### Create a basic SMS response
 
@@ -53,9 +61,9 @@ Based on the documentation referenced above, we can see a simple example to get 
 </Response>
 
 ```
-By simply copy and pasting this example into your TwimlBin, you are on your way to building and running your first SMS application. So lets go ahead and do that. 
-Copy the above code example and paste it into your TwiMLBin. After writing any code in the editor, the system will validate the code, so look for the green check at the bottom of the code editor window to ensure it will function properly. 
-![Twiml Paste](images/pastetwiml.gif?raw=true "twiml paste")
+By simply copy and pasting this example into your TwiML Bin, you are on your way to building and running your first SMS application. So lets go ahead and do that. 
+Copy the above code example and paste it into your TwiML Bin. After writing any code in the editor, the system will validate the code, so look for the green check at the bottom of the code editor window to ensure it will function properly. 
+![TwiML Paste](images/pasteTwiML.gif?raw=true "TwiML paste")
 
 Save the Bin address:
 ` https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a`
