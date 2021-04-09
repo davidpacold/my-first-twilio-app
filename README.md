@@ -44,22 +44,28 @@ TwiMLBins allow you to create a small application and have Twilio host it. Once 
 
 ### Create a basic SMS response
 
-```
-    <?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Message>Hello from Twilio Bootcamp, this is great!</Message>
-</Response>
+Based on the documentation referenced above, we can see a simple example to get us started. Looking at this example we see the text "Hello World!" wrapped in the Message Tag, which itself is wrapped in the Response Tag. This is an example of the TwiML markup that will inform the Twilio Platform to respond to any incoming SMS with a SMS in return, that simply says "Hello World!"
+
 ```
 
+<Response>
+    <Message>Hello World!</Message>
+</Response>
+
+```
+By simply copy and pasting this example into your TwimlBin, you are on your way to building and running your first SMS application. So lets go ahead and do that. 
+Copy the above code example and paste it into your TwiMLBin
+![Twiml Paste](images/pastetwiml.gif?raw=true "twiml paste")
+
 Save the Bin address:
-https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a
+` https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a`
 
 go back to phone numbers
 change the default SMS webhook from:
-https://demo.twilio.com/welcome/sms/reply
+`https://demo.twilio.com/welcome/sms/reply`
 
 to the TwiML bin
-https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a
+`https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a`
 
 Save the change
 
