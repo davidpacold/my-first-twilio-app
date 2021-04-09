@@ -54,7 +54,7 @@ Based on the documentation referenced above, we can see a simple example to get 
 
 ```
 By simply copy and pasting this example into your TwimlBin, you are on your way to building and running your first SMS application. So lets go ahead and do that. 
-Copy the above code example and paste it into your TwiMLBin
+Copy the above code example and paste it into your TwiMLBin. After writing any code in the editor, the system will validate the code, so look for the green check at the bottom of the code editor window to ensure it will function properly. 
 ![Twiml Paste](images/pastetwiml.gif?raw=true "twiml paste")
 
 Save the Bin address:
