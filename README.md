@@ -3,9 +3,9 @@
 
 # Twilio Red Track Jacket 
 
-I reciently started at Twilio as a Principal Solution Engineer and as part of the onboarding process, every employee has the oppotunity to earn their Track Jacket. 
+I recently started at Twilio as a Principal Solution Engineer and as part of the onboarding process, every employee has the opportunity to earn their Track Jacket. 
 
-The process entails builing an app that utilizes the Twilio platform and then giving a demo of the app you built. 
+The process entails building an app that utilizes the Twilio platform and then giving a demo of the app you built. 
 
 This project will document my journey to earning my Track Jacket! Here I will be outlining the general process of setting up a twilio account, the steps I followed to learn and build my app, and provide some tips and tricks as I learn them. 
 
@@ -21,11 +21,13 @@ For Twilio Employees only - you have the option to convert your trial account to
 ## What is TwiML
 TwiML is the markup language and formatting used by the twilio services 
 Here is a link to the Twilio Docs: 
-https://www.twilio.com/docs/sms/twiml
+TwiML for [Programmable SMS](https://www.twilio.com/docs/sms/TwiML)
 
-## Create a Twiml bin
+TwiML for [Programmable Voice](https://www.twilio.com/docs/voice/twiml)
 
-TwimlBins allow you to create a small application and have Twilio host it. Once you have your code written, and your Twimlbin is created, you will get a unique URL to access it. We will use that URL as the destination for inbound SMS messages. 
+## Create a TwiML bin
+
+TwiMLBins allow you to create a small application and have Twilio host it. Once you have your code written, and your TwiMLbin is created, you will get a unique URL to access it. We will use that URL as the destination for inbound SMS messages. 
 
 ### Create a basic SMS response
 
@@ -37,21 +39,21 @@ TwimlBins allow you to create a small application and have Twilio host it. Once 
 ```
 
 Save the Bin address:
-https://handler.twilio.com/twiml/EH4f293e58604a4be7e2d86580d55e667a
+https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a
 
 go back to phone numbers
 change the default SMS webhook from:
 https://demo.twilio.com/welcome/sms/reply
 
-to the twiml bin
-https://handler.twilio.com/twiml/EH4f293e58604a4be7e2d86580d55e667a
+to the TwiML bin
+https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a
 
 Save the change
 
 Send a test test message to the phone number in your account
-If successful you will get the "Hello from Twilio Bootcamp, this is great!" response retuned to you
+If successful you will get the "Hello from Twilio Bootcamp, this is great!" response returned to you
 
-If you account is still in trial status, your message will indiate it as such in the retuned response.
+If you account is still in trial status, your message will indicate it as such in the returned response.
 
 
 
