@@ -1,4 +1,4 @@
-# trackjacket
+# My First Twilio App
 
 
 # Twilio Red Track Jacket 
@@ -50,11 +50,34 @@ With that in mind, our development environment is going to consist of a few tool
 * To make my development easier, I installed another tool, [nodemon.js](https://nodemon.io). This tool watches your code files and as they are updated automatically reloads the node app, so your always running the latest updated code. 
 * Finally to make my application available on the internet, with out having to open firewall ports, make network changes etc.. I am using a tool called ngrok. 
 
+### API docs to keep handy
+
+#### What is TwiML
+TwiML is the markup language and formatting used by the twilio services 
+Here is a link to the Twilio Docs:
+ 
+- TwiML for [Programmable SMS](https://www.twilio.com/docs/sms/TwiML)
+
+- TwiML for [Programmable Voice](https://www.twilio.com/docs/voice/TwiML)
+
+### Create a basic SMS response
+
+Based on the documentation referenced above, we can see a simple example to get us started. Looking at this example we see the text "Hello World!" wrapped in the Message Tag, which itself is wrapped in the Response Tag. This is an example of the TwiML markup that will inform the Twilio Platform to respond to any incoming SMS with a SMS in return, that simply says "Hello World!"
+
+```
+
+<Response>
+    <Message>Hello World!</Message>
+</Response>
+
+```
+
+
 ### Building our Application 
 
 After installing the tools mentioned above, we are going to go ahead and start writing our application. In VSCode, I am going to open a new document, and save it as `Numberguess.js`. By saving it as a javascript file, VS Code knows the file type and will do some dynamic text colorization, auto complete, etc.. which is really handy. 
 
-The first part of our code is going to add in the required libraries for our application. As noted in the development environment section, we have installed a few additional libraries, so lets add them to our application. This will make the fuctionality of the Express library and and body-parser library availabel to be consumed in our applicaiton. \
+The first part of our code is going to add in the required libraries for our application. As noted in the development environment section, we have installed a few additional libraries, so lets add them to our application. This will make the functionality of the Express library and and body-parser library available to be consumed in our application. \
 
 ```
 const express = require('express'); 
@@ -90,7 +113,7 @@ The next section of our application will contain the code that will generate an 
 app.post('/numberguess', (request, response) => {}
 ```
 
-So far our code has been building the basic skeleton of our applicaiton. The next steps in our code are adding the guts of our applicaiton. These next steps will parse the inbound webhook for the text of the message that the user sends. Twilio will send the text of the users message in a JSON statement. There is a bunch of information that is sent over, the specific value we are interested is the "Body" value. Here are are going to compare the incoming Body message to the StartGame variable, if you look back at the varibale defincaiton, its defined as "Start". If the user happens to send the message "Start" if will match, and the message "Game Starting" will be posted into the console, a random number from 0 - 9 (inclusive of those numbers) will be selected, and the number will be posted back into the console. Finally, a message back to user will be formed, using the TwiML formatting, and sent back to twilio and ultimately back to the user via SMS. 
+So far our code has been building the basic skeleton of our application. The next steps in our code are adding the guts of our application. What we are defining next,  will parse the inbound webhook for the text of the message that the user sends. Twilio will send the text of the users message in a JSON statement. There is a bunch of information that is sent over, the specific value we are interested is the "Body" value. Here are are going to compare the incoming Body message to the StartGame variable, if you look back at the variable definition, its defined as "Start". If the user happens to send the message "Start" if will match, and the message "Game Starting" will be posted into the console, a random number from 0 - 9 (inclusive of those numbers) will be selected, and the number will be posted back into the console. The generated random number will also be stored as a variable called "gamenumber", that we will use later on to evaluate the users submitted guess. Finally, a message back to user will be formed, using the TwiML formatting, and sent back to twilio and ultimately back to the user via SMS. 
 
 ```
 const incomingBody = request.body.Body;
@@ -103,65 +126,91 @@ const incomingBody = request.body.Body;
   } 
 ```
 
+These next steps will be evaluating any user number guesses. The prompt from the previous step is to guess a number from 0 - 9, if the user send in a number guess, that will fail the first condition, which recall was just evaluating to see if the user sent the word "Start". a number guess will fail that check and then fall into these next evaluation conditions. Looking at these statements, the incoming body value is going to be compared to the game number variable. If the number is too low or too high, a message is printed to the console, and a response with a hint is generated and sent back to the user as with the game start message. If the user guesses the right number and the variables match, a congratulations message is generated and returned to the user. Finally a catch all statement, that if a user submits a message that doesn't fit any of the conditions, an "unknown entry" message is printed to the console and a message suggesting the user start a game is returned to the user. 
 
-## What is TwiML
-TwiML is the markup language and formatting used by the twilio services 
-Here is a link to the Twilio Docs:
- 
-- TwiML for [Programmable SMS](https://www.twilio.com/docs/sms/TwiML)
+```
+ else if(incomingBody < gamenumber)
+  {
+  console.log('Too low, aim higher')
+  response.send( "<Response><Message>Good guess, but that was too low, aim higher</Message></Response>");
+  }
+  else if(incomingBody > gamenumber)
+  {
+  console.log('Too high, aim lower')
+  response.send( "<Response><Message>Good guess, but that was too high, aim lower</Message></Response>");
+  }
+  else if(incomingBody == gamenumber)
+  {
+  console.log('Nailed it!')
+  response.send( "<Response><Message>Good guess, you nailed it! Start another game by saying 'Start'</Message></Response>");
+  }
+  else
+  {
+  console.log('unknown entry')
+  response.send( "<Response><Message>im not sure what you mean, say 'Start' to begin a game</Message></Response>");
+  }
+```
 
-- TwiML for [Programmable Voice](https://www.twilio.com/docs/voice/TwiML)
+To see it all together here is the content of our numberguess.js file, which is our application:
 
-## 
+```
+const express = require('express');
+const urlencoded = require('body-parser').urlencoded;
 
+//define a variable for the start game incoming message
+StartGame = 'Start'
 
+// defines  a function to generate a random number
+function getRandomInt(max){
+  return Math.floor(Math.random() * max);
 
-## Create a TwiML bin
+// Parse incoming POST params with Express middleware
+app.use(urlencoded({ extended: false }));
+const app = express();
 
-TwiML Bins allow you to create a small application and have Twilio host it. Once you have your code written, and your TwiML Bin is created, you will get a unique URL to access it. We will use that later on, to direct our inbound SMS messages to our application that will handle them. 
+// Create an HTTP server and listen for requests on port 3000
+app.listen(3000, () => {
+    console.log(
+      'Now listening on port 3000. ' +
+      'Be sure to restart when you make code changes!'
+    );
+  });
 
-- Start by accessing the TwiML Bin feature by selecting the 3 dots from the menu of your Twilio Console and selecting the TwiML Bin feature  
-![Navigating to TwiML Bin](images/twimlbinnav.gif?raw=true "Twiml Bin Nav")  
+// Create a route that will handle Twilio webhook requests, sent as an
+// HTTP POST to /inbound in our application
+app.post('/numberguess', (request, response) => {})
+  // Get information about the incoming call
+  // Collecting the body of the message to determine the guess
+  const incomingBody = request.body.Body;
+  if(incomingBody == StartGame)
+  {
+  console.log('Game Starting');
+  gamenumber = getRandomInt(9);
+  console.log(gamenumber)
+  response.send( "<Response><Message>The game is starting, a number from 0 - 9 has been selected, try to guess it</Message></Response>");
+  } 
+  else if(incomingBody < gamenumber)
+  {
+  console.log('Too low, aim higher')
+  response.send( "<Response><Message>Good guess, but that was too low, aim higher</Message></Response>");
+  }
+  else if(incomingBody > gamenumber)
+  {
+  console.log('Too high, aim lower')
+  response.send( "<Response><Message>Good guess, but that was too high, aim lower</Message></Response>");
+  }
+  else if(incomingBody == gamenumber)
+  {
+  console.log('Nailed it!')
+  response.send( "<Response><Message>Good guess, you nailed it! Start another game by saying 'Start'</Message></Response>");
+  }
+  else
+  {
+  console.log('unknown entry')
+  response.send( "<Response><Message>im not sure what you mean, say 'Start' to begin a game</Message></Response>");
+  }
 
-- From the TwiML Bin landing page, click create new TwiML Bin, this will load a new Bin for us to use. For now, give it a name that is descriptive of the app we are making, as for the code, we are just going to copy the example code provided to use on the form. Once we have done that will save our Bin. This will give us the unique url for our fresh TwiML Bin, that we can then use to respond inbound voice or SMS messages.  
-![Bin Create](images/bincreate.gif?raw=true "TwiMLbin create")  
-
-- Next we will want to copy the Bin URL that was created after we saved our Bin in the previous step. At the top of the page, a new properties section will be displayed, there are a number of fields displayed such as a SID, the date created and updated and a URL. The URL field is what we are interested in and it conveniently has a little copy button at the end of the field. Hit that to copy the entire url.  
-![copy TwiML Bin URL](images/bincopy.gif?raw=true "Twiml Bin copy")  
-
-### Create a basic SMS response
-
-Based on the documentation referenced above, we can see a simple example to get us started. Looking at this example we see the text "Hello World!" wrapped in the Message Tag, which itself is wrapped in the Response Tag. This is an example of the TwiML markup that will inform the Twilio Platform to respond to any incoming SMS with a SMS in return, that simply says "Hello World!"
+}
 
 ```
 
-<Response>
-    <Message>Hello World!</Message>
-</Response>
-
-```
-By simply copy and pasting this example into your TwiML Bin, you are on your way to building and running your first SMS application. So lets go ahead and do that. 
-Copy the above code example and paste it into your TwiML Bin. After writing any code in the editor, the system will validate the code, so look for the green check at the bottom of the code editor window to ensure it will function properly. 
-![TwiML Paste](images/pasteTwiML.gif?raw=true "TwiML paste")
-
-Save the Bin address:
-` https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a`
-
-go back to phone numbers
-change the default SMS webhook from:
-`https://demo.twilio.com/welcome/sms/reply`
-
-to the TwiML bin
-`https://handler.twilio.com/TwiML/EH4f293e58604a4be7e2d86580d55e667a`
-
-Save the change
-
-Send a test test message to the phone number in your account
-If successful you will get the "Hello from Twilio Bootcamp, this is great!" response returned to you
-
-If you account is still in trial status, your message will indicate it as such in the returned response.
-
-
-
-# Random notes and things to look up in the future
-  Flask and the request module 
