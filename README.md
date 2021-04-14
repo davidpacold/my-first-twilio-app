@@ -7,7 +7,7 @@ I recently started at Twilio as a Principal Solution Engineer and as part of the
 
 The process entails building an app that utilizes the Twilio platform and then giving a demo of the app you built. 
 
-This project will document my journey to earning my Track Jacket! Here I will be outlining the general process of setting up a twilio account, the steps I followed to learn and build my app, and provide some tips and tricks as I learn them. 
+This project will document my journey to earning my Track Jacket! Here I will be outlining the general process of setting up a Twilio account, the steps I followed to learn and build my app, and provide some tips and tricks as I learn them. 
 
 Some of my ideas for the app are: 
 - a number guessing app, the server generates a random number between 1 and 10, and then the user guesses a number, the server returns a match or a clue 
@@ -29,7 +29,36 @@ In this step we will be creating a new Twilio account to get access to a phone n
 This step will walk us though buying a phone number in the Twilio platform 
 
 ## Convert to employee account
-For Twilio Employees only - you have the option to convert your trial account to an employee account. This will allow your account specific priviliges above and beyond the trial account limitations. 
+For Twilio Employees only - you have the option to convert your trial account to an employee account. This will allow your account specific privileges above and beyond the trial account limitations. 
+
+
+
+## Building your application 
+### Outlining our goals 
+Since I am new to software development, looking at my list of ideas, I think the simplest of them to get off the ground will be the number guessing game. As far as the user experience, what I want to build can be outlined like:  
+* A user sends a text with the word "Start" to my Twilio number
+* A is text returned to the user that lets them know a game is started and what the possible range of numbers is
+* The user texts back their guess 
+* If the number guessed is too low or too high a hint is returned
+* If the number is right, they are informed and a new round is suggested
+
+### Development environment 
+With that in mind, our development environment is going to consist of a few tools. Ultimately this is a preference of your tools, and coding language, but since I am new this all of this, I am picking what I have heard around the virtual water cooler, and learning those. 
+* For my code editor, I am going to use Visual Studio Code, its lightweight editor and has lots of customizations that can be applied. 
+* I am going to be using and writing a node.js based application, so I have installed node on my mac. 
+* To make my development easier, I installed another tool, "nodemon". This tool watches your code files and as they are updated automatically reloads the node app, so your always running the latest updated code. 
+* Finally to make my application available on the internet, with out having to open firewall ports, make network changes etc.. I am using a tool called ngrok. 
+
+### Building our Application 
+
+After installing the tools mentioned above, we are going to go ahead and start writing our application. In VSCode, I am going to open a new document, and save it as `Numberguess.js`. By saving it as a javascript file, VS Code knows the file type and will do some dynamic text colorization, auto complete, etc.. which is really handy. 
+
+The first part of our code is going to 
+
+
+
+
+
 
 ## What is TwiML
 TwiML is the markup language and formatting used by the twilio services 
@@ -38,6 +67,10 @@ Here is a link to the Twilio Docs:
 - TwiML for [Programmable SMS](https://www.twilio.com/docs/sms/TwiML)
 
 - TwiML for [Programmable Voice](https://www.twilio.com/docs/voice/TwiML)
+
+## 
+
+
 
 ## Create a TwiML bin
 
