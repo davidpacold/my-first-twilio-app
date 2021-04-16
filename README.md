@@ -77,7 +77,7 @@ Based on the documentation referenced above, we can see a simple example to get 
 
 After installing the tools mentioned above, we are going to go ahead and start writing our application. In VSCode, I am going to open a new document, and save it as `Numberguess.js`. By saving it as a javascript file, VS Code knows the file type and will do some dynamic text colorization, auto complete, etc.. which is really handy. 
 
-The first part of our code is going to add in the required libraries for our application, and define some variables. As noted in the development environment section, we have installed a few additional libraries, so lets add them to our application. This will make the functionality of the Express library and and body-parser library available to be consumed in our application. \
+The first part of our code is going to add in the required libraries for our application, and define some variables. As noted in the development environment section, we have installed a few additional libraries, so lets add them to our application. This will make the functionality of the Express library and and body-parser library available to be consumed in our application.
 
 ```
 const express = require('express');
@@ -91,133 +91,172 @@ StartGame='Start';
 
  ``` 
 
-The next section of our code will define a variable for the start message, this is the value we are looking for in an incoming text to start a new game, and following that we are going to define a function to generate a random number. 
-```
-//define a variable for the start game incoming message
-StartGame = 'Start'
-
-// defines  a function to generate a random number
-function getRandomInt(max){
-  return Math.floor(Math.random() * max);
-```
-
-
-The next section of our code will create an express webserver application that listens locally on port 3000. This will also print out the status to the local terminal
-```
-const app = express();
-
-// Create an HTTP server and listen for requests on port 3000
-app.listen(3000, () => {
-    console.log(
-      'Now listening on port 3000. ' +
-      'Be sure to restart when you make code changes!'
-    );
-  });
-```
-
-The next section of our application will contain the code that will generate an endpoint that will listen on "/numberguess" - so our service will be running on https://mysite.com/numberguess 
-```
-app.post('/numberguess', (request, response) => {}
-```
-
-So far our code has been building the basic skeleton of our application. The next steps in our code are adding the guts of our application. What we are defining next,  will parse the inbound webhook for the text of the message that the user sends. Twilio will send the text of the users message in a JSON statement. There is a bunch of information that is sent over, the specific value we are interested is the "Body" value. Here are are going to compare the incoming Body message to the StartGame variable, if you look back at the variable definition, its defined as "Start". If the user happens to send the message "Start" if will match, and the message "Game Starting" will be posted into the console, a random number from 0 - 9 (inclusive of those numbers) will be selected, and the number will be posted back into the console. The generated random number will also be stored as a variable called "gamenumber", that we will use later on to evaluate the users submitted guess. Finally, a message back to user will be formed, using the TwiML formatting, and sent back to twilio and ultimately back to the user via SMS. 
+The next few lines of our code will create a new node application that will be listening on the serverurl/numberguess endpoint. I have added some code comments below as well inline with what should be happening. Other than start a service on that endpoint, we are going to generate an object that parses out the "Body" value from the message we got from Twilio. In this case the Body value is the content of the SMS message from the user and stores it as the incomingBody object. 
 
 ```
+
+// an app that responds on the numberguess subdirectory, here it is expecting an inbound POST message
+app.post('/numberguess', (request, response) => {
+ 
+// creating an object called incomingBody that contains the value from the Body field of the inbound message from Twilio. In this case, Twilo is sending us a JSON formatted message and the Body field contains whatever message the sent via SMS
 const incomingBody = request.body.Body;
-  if(incomingBody == StartGame)
-  {
-  console.log('Game Starting');
+// Logs the users sumitted text to the console window for troubleshooting and monitoring
+console.log('User has submitted '+incomingBody);
+
+```
+
+This next block of code will going to check the users submitted text message to see if their intention is to start a new game. Remember at the start of our code we set the StartGame variable to be equal to "Start". Now we are going to check if the StartGame value equals the incomingBody value. If it does, than the if statement is true, and the following code will be run. This will generate a new random number and store it as the gamenumber object for future use. It will also print some messages to the console for us to troubleshoot and monitor game progress. Finally, we see the TwiML response / message xml being generated and sent back to twilio for delivery to the user. 
+
+```
+
+//here are are doing a check to see if the user has submitted the word "Start". If they have than the condition is satisified and the code in the "if" block will be processed
+if(incomingBody == StartGame)
+{
+  // defining a varialbe that can be referenced later to check what the random number is. In this case, the 9 means that a number will be selected from 0 - 9 (inclusive of those)
   gamenumber = getRandomInt(9);
-  console.log(gamenumber)
-  response.send( "<Response><Message>The game is starting, a number from 0 - 9 has been selected, try to guess it</Message></Response>");
-  } 
+  //This is the function to generate a random number that is stored in the above variable
+  function getRandomInt(max){
+    return Math.floor(Math.random() * max);
+  }
+// Send a message to the console log that based on the incomingBody and StartGame check, a new game is starting
+console.log('Game Starting');
+// here the random number that was selected is now printed out to the console for troubleshooting and monitoring 
+console.log('the chosen number is '+gamenumber);
+// Here we are now going to send a response back to the user who sent in the message. This is formatted using the TwiML XML Response / message tags 
+response.send( "<Response><Message>The game is starting, a number from 0 - 9 has been selected, try to guess it</Message></Response>");
+} 
+
 ```
 
-These next steps will be evaluating any user number guesses. The prompt from the previous step is to guess a number from 0 - 9, if the user send in a number guess, that will fail the first condition, which recall was just evaluating to see if the user sent the word "Start". a number guess will fail that check and then fall into these next evaluation conditions. Looking at these statements, the incoming body value is going to be compared to the game number variable. If the number is too low or too high, a message is printed to the console, and a response with a hint is generated and sent back to the user as with the game start message. If the user guesses the right number and the variables match, a congratulations message is generated and returned to the user. Finally a catch all statement, that if a user submits a message that doesn't fit any of the conditions, an "unknown entry" message is printed to the console and a message suggesting the user start a game is returned to the user. 
+This next block of code does the evaluation of the users guess. Here were checking to see if the submitted guess is too low, too high, correct, or something we dont understand. Again I added some code comments to try and make it easy to follow. Essentially, we are goign to compare the incomingBody value to the gamenumber value. Depending on the result, a message is returned to the user giving them a hint about what their next guess should be. 
 
 ```
- else if(incomingBody < gamenumber)
-  {
-  console.log('Too low, aim higher')
-  response.send( "<Response><Message>Good guess, but that was too low, aim higher</Message></Response>");
-  }
-  else if(incomingBody > gamenumber)
-  {
-  console.log('Too high, aim lower')
-  response.send( "<Response><Message>Good guess, but that was too high, aim lower</Message></Response>");
-  }
-  else if(incomingBody == gamenumber)
-  {
-  console.log('Nailed it!')
-  response.send( "<Response><Message>Good guess, you nailed it! Start another game by saying 'Start'</Message></Response>");
-  }
-  else
-  {
-  console.log('unknown entry')
-  response.send( "<Response><Message>im not sure what you mean, say 'Start' to begin a game</Message></Response>");
-  }
-```
 
-To see it all together here is the content of our numberguess.js file, which is our application:
 
-```
-const express = require('express');
-const urlencoded = require('body-parser').urlencoded;
-
-//define a variable for the start game incoming message
-StartGame = 'Start'
-
-// defines  a function to generate a random number
-function getRandomInt(max){
-  return Math.floor(Math.random() * max);
-
-// Parse incoming POST params with Express middleware
-app.use(urlencoded({ extended: false }));
-const app = express();
-
-// Create an HTTP server and listen for requests on port 3000
-app.listen(3000, () => {
-    console.log(
-      'Now listening on port 3000. ' +
-      'Be sure to restart when you make code changes!'
-    );
-  });
-
-// Create a route that will handle Twilio webhook requests, sent as an
-// HTTP POST to /inbound in our application
-app.post('/numberguess', (request, response) => {})
-  // Get information about the incoming call
-  // Collecting the body of the message to determine the guess
-  const incomingBody = request.body.Body;
-  if(incomingBody == StartGame)
-  {
-  console.log('Game Starting');
-  gamenumber = getRandomInt(9);
-  console.log(gamenumber)
-  response.send( "<Response><Message>The game is starting, a number from 0 - 9 has been selected, try to guess it</Message></Response>");
-  } 
-  else if(incomingBody < gamenumber)
-  {
-  console.log('Too low, aim higher')
-  response.send( "<Response><Message>Good guess, but that was too low, aim higher</Message></Response>");
-  }
-  else if(incomingBody > gamenumber)
-  {
-  console.log('Too high, aim lower')
-  response.send( "<Response><Message>Good guess, but that was too high, aim lower</Message></Response>");
-  }
-  else if(incomingBody == gamenumber)
-  {
-  console.log('Nailed it!')
-  response.send( "<Response><Message>Good guess, you nailed it! Start another game by saying 'Start'</Message></Response>");
-  }
-  else
-  {
-  console.log('unknown entry')
-  response.send( "<Response><Message>im not sure what you mean, say 'Start' to begin a game</Message></Response>");
-  }
-
+// if the users submitted text does not match the word start, we are now going to assume that it must be a guess. We are now going to compare the users submitted message (incomingBody) to the current random number (gamenumber). This case is testing for a guess thats too low.
+else if(incomingBody < gamenumber)
+{
+// Here we are logging a message to the console that the users guess was too low and they should aim higher
+console.log('Too low, aim higher')
+// here we are now sending a message back to the user with the result of their guess. Again this is formatted using the TwiML response / message tags
+response.send( "<Response><Message>Good guess, but that was too low, aim higher</Message></Response>");
+}
+// if the users submitted text does not match the word or the too low check, we are now still going to assume that it must be a guess. We are now going to compare the users submitted message (incomingBody) to the current random number (gamenumber). This case is testing for a guess thats too high.
+else if(incomingBody > gamenumber)
+{
+// Here we are logging a message to the console that the users guess was too high and they should aim lower
+console.log('Too high, aim lower')
+// here we are now sending a message back to the user with the result of their guess. Again this is formatted using the TwiML response / message tags
+response.send( "<Response><Message>Good guess, but that was too high, aim lower</Message></Response>");
+}
+// if the users submitted text does not match the too low or too high evaluations, we are still going to assume that it must be a guess. We are now going to compare the users submitted message (incomingBody) to the current random number (gamenumber). This case is testing for a guess thats is equal to the random number.
+else if(incomingBody == gamenumber)
+{
+// Here we are logging a message to the console that the users guess was exactly right
+console.log('Nailed it!')
+// here we are now sending a message back to the user with the result of their guess. Again this is formatted using the TwiML response / message tags
+response.send( "<Response><Message>Good guess, you nailed it!</Message></Response>");
+}
+// finally the users submitted text does not match the word start, and all the number evaluations fail, we are now going to assume that it must not be a valid guess. 
+else
+{
+// Here we are logging a message to the console that the users guess didnt match any of the expected values, a number or the word "start".
+console.log('unknown entry')
+// here we are now sending a message back to the user with the result of their guess. In this case, that we were unable to match it aginst an expected value and they should say Start to begin a game. Again this is formatted using the TwiML response / message tags
+response.send( "<Response><Message>im not sure what you mean, say 'Start' to begin a game</Message></Response>");
 }
 
+})
+
 ```
 
+This last bit sets up the app on the defined port from the top of our config file and prints to the console that our service is running and on which port. 
+
+```
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
+
+```
+
+And finally lets see it all together. I have also posted it in this repo in the files folder. 
+```
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express()
+const port = 3000
+app.use(bodyParser.urlencoded({ extended: false }));
+
+//Define Start Game variable that wil be used to compare against later on for a new number generation, or if the message contains a guess
+StartGame='Start';
+
+// a basic app that responds to the root directory with a simple hello world message
+app.get('/', (request, response) => {
+  response.send('Hello World!')
+})
+
+// an app that responds on the numberguess subdirectory, here it is expecting an inbound POST message
+app.post('/numberguess', (request, response) => {
+ 
+// creating an object called incomingBody that contains the value from the Body field of the inbound message from Twilio. In this case, Twilo is sending us a JSON formatted message and the Body field contains whatever message the sent via SMS
+const incomingBody = request.body.Body;
+// Logs the users sumitted text to the console window for troubleshooting and monitoring
+console.log('User has submitted '+incomingBody);
+//here are are doing a check to see if the user has submitted the word "Start". If they have than the condition is satisified and the code in the "if" block will be processed
+if(incomingBody == StartGame)
+{
+  // defining a varialbe that can be referenced later to check what the random number is. In this case, the 9 means that a number will be selected from 0 - 9 (inclusive of those)
+  gamenumber = getRandomInt(9);
+  //This is the function to generate a random number that is stored in the above variable
+  function getRandomInt(max){
+    return Math.floor(Math.random() * max);
+  }
+// Send a message to the console log that based on the incomingBody and StartGame check, a new game is starting
+console.log('Game Starting');
+// here the random number that was selected is now printed out to the console for troubleshooting and monitoring 
+console.log('the chosen number is '+gamenumber);
+// Here we are now going to send a response back to the user who sent in the message. This is formatted using the TwiML XML Response / message tags 
+response.send( "<Response><Message>The game is starting, a number from 0 - 9 has been selected, try to guess it</Message></Response>");
+} 
+// if the users submitted text does not match the word start, we are now going to assume that it must be a guess. We are now going to compare the users submitted message (incomingBody) to the current random number (gamenumber). This case is testing for a guess thats too low.
+else if(incomingBody < gamenumber)
+{
+// Here we are logging a message to the console that the users guess was too low and they should aim higher
+console.log('Too low, aim higher')
+// here we are now sending a message back to the user with the result of their guess. Again this is formatted using the TwiML response / message tags
+response.send( "<Response><Message>Good guess, but that was too low, aim higher</Message></Response>");
+}
+// if the users submitted text does not match the word or the too low check, we are now still going to assume that it must be a guess. We are now going to compare the users submitted message (incomingBody) to the current random number (gamenumber). This case is testing for a guess thats too high.
+else if(incomingBody > gamenumber)
+{
+// Here we are logging a message to the console that the users guess was too high and they should aim lower
+console.log('Too high, aim lower')
+// here we are now sending a message back to the user with the result of their guess. Again this is formatted using the TwiML response / message tags
+response.send( "<Response><Message>Good guess, but that was too high, aim lower</Message></Response>");
+}
+// if the users submitted text does not match the too low or too high evaluations, we are still going to assume that it must be a guess. We are now going to compare the users submitted message (incomingBody) to the current random number (gamenumber). This case is testing for a guess thats is equal to the random number.
+else if(incomingBody == gamenumber)
+{
+// Here we are logging a message to the console that the users guess was exactly right
+console.log('Nailed it!')
+// here we are now sending a message back to the user with the result of their guess. Again this is formatted using the TwiML response / message tags
+response.send( "<Response><Message>Good guess, you nailed it!</Message></Response>");
+}
+// finally the users submitted text does not match the word start, and all the number evaluations fail, we are now going to assume that it must not be a valid guess. 
+else
+{
+// Here we are logging a message to the console that the users guess didnt match any of the expected values, a number or the word "start".
+console.log('unknown entry')
+// here we are now sending a message back to the user with the result of their guess. In this case, that we were unable to match it aginst an expected value and they should say Start to begin a game. Again this is formatted using the TwiML response / message tags
+response.send( "<Response><Message>im not sure what you mean, say 'Start' to begin a game</Message></Response>");
+}
+
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
+
+
+```
