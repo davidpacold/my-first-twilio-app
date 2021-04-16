@@ -1,8 +1,6 @@
 # My First Twilio App
 
 
-# Twilio Red Track Jacket 
-
 I recently started at Twilio as a Principal Solution Engineer and as part of the onboarding process, every employee has the opportunity to earn their Track Jacket. 
 
 The process entails building an app that utilizes the Twilio platform and then giving a demo of the app you built. 
