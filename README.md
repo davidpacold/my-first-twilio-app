@@ -62,7 +62,7 @@ Here is a link to the Twilio Docs:
 
 ### Create a basic SMS response
 
-Based on the documentation referenced above, we can see a simple example to get us started. Looking at this example we see the text "Hello World!" wrapped in the Message Tag, which itself is wrapped in the Response Tag. This is an example of the TwiML markup that will inform the Twilio Platform to respond to any incoming SMS with a SMS in return, that simply says "Hello World!"
+Based on the documentation referenced above, we can see a simple example to get us started. Looking at this example we see the text "Hello World!" wrapped in the Message Tag, which itself is wrapped in the Response Tag. This is an example of the TwiML markup that will inform the Twilio Platform to respond to any incoming SMS with a SMS in return, in this case a message that simply says "Hello World!"
 
 ```
 
@@ -77,11 +77,18 @@ Based on the documentation referenced above, we can see a simple example to get 
 
 After installing the tools mentioned above, we are going to go ahead and start writing our application. In VSCode, I am going to open a new document, and save it as `Numberguess.js`. By saving it as a javascript file, VS Code knows the file type and will do some dynamic text colorization, auto complete, etc.. which is really handy. 
 
-The first part of our code is going to add in the required libraries for our application. As noted in the development environment section, we have installed a few additional libraries, so lets add them to our application. This will make the functionality of the Express library and and body-parser library available to be consumed in our application. \
+The first part of our code is going to add in the required libraries for our application, and define some variables. As noted in the development environment section, we have installed a few additional libraries, so lets add them to our application. This will make the functionality of the Express library and and body-parser library available to be consumed in our application. \
 
 ```
-const express = require('express'); 
-const urlencoded = require('body-parser').urlencoded;
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express()
+const port = 3000
+app.use(bodyParser.urlencoded({ extended: false }));
+
+//Define Start Game variable that wil be used to compare against later on for a new number generation, or if the message contains a guess
+StartGame='Start';
+
  ``` 
 
 The next section of our code will define a variable for the start message, this is the value we are looking for in an incoming text to start a new game, and following that we are going to define a function to generate a random number. 
