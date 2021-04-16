@@ -42,6 +42,17 @@ Since I am new to software development, looking at my list of ideas, I think the
 * If the number guessed is too low or too high a hint is returned
 * If the number is right, they are informed and a new round is suggested
 
+Lets break this down a bit, and look at this this works from a communication flow lens. Here is a quick diagram:
+![Communication Flow](images/flow.png?raw=true "Communication Flow")
+
+* In step 1, the user is sending an SMS message, this is transmitted from the users device to their carrier, such as AT&T or Verizon for example. 
+* In step 2 and 3, the carrier is routing the message through their network and internet to the Twilio service.
+* In step 4, Twilio is seeing that the communication should be handled by the phone services
+* In step 5, The Twilio platform sees that incoming messages should be routed to a configured application service URL and directs it there. In our case, this is the app we are going to build! 
+* Step 6 and 7, is our application processing and responding to the Twilio platform with a response we want the user to receive. This is the start of the whole process essentially in reverse, and the outbound message is working its way back though the Twilio Platform
+* In step 8 and 9, Twilio is posting the message back to the carrier
+* In step 10, the response from our application is delivered by the carrier network to our user
+
 ### Development environment 
 With that in mind, our development environment is going to consist of a few tools. Ultimately this is a preference of your tools, and coding language, but since I am new this all of this, I am picking what I have heard around the virtual water cooler, and learning those. 
 * For my code editor, I am going to use Visual Studio Code, its lightweight editor and has lots of customizations that can be applied. 
